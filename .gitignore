@@ -1,0 +1,3 @@
+dist
+django_financial_transactions.egg-info
+*.pyc
