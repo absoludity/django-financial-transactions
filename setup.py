@@ -4,7 +4,7 @@ from setuptools import (
     setup,
 )
 
-README = open(os.path.join(os.path.dirname(__file__), 'README')).read()
+README = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
@@ -17,9 +17,13 @@ setup(
     description='A Django app to import and categorise financial '
                 'transactions.',
     long_description=README,
-    url='http://github.com/absoludity/django-financial-transactions/',
+    url='http://github.com/absoludity/django-financial-transactions',
     author='Michael Nelson',
     author_email='absoludity@gmail.com',
+    install_requires=[
+        'django-categories >= 1.1.4',
+        'south >= 0.7.6',
+    ],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
