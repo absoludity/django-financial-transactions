@@ -1,6 +1,7 @@
 ======================
 Financial Transactions
 ======================
+
 [![Build Status](https://travis-ci.org/absoludity/django-financial-transactions.png)](https://travis-ci.org/absoludity/django-financial-transactions)
 
 Financial Transactions is a Django app to import and categorise transactions from financial institutions, where categories are assigned based on hints.
