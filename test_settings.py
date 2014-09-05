@@ -15,3 +15,8 @@ INSTALLED_APPS = [
     'financial_transactions',
     'south',
 ]
+
+MIDDLEWARE_CLASSES = []
+
+# Support different currency formats.
+USE_L10N = True

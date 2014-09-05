@@ -20,7 +20,7 @@ class GiroTransactionFormTestCase(TestCase):
 
     def test_cleaned_amount_correct_sign(self):
         account = self.factory.make_one(Account)
-        row = ['31.12.2012', 'Whatever', '5.345,09', '-']
+        row = ['31.12.2012', 'Whatever', '5345,09', '-']
         f = GiroTransactionForm(row, account)
 
         is_valid = f.is_valid()

@@ -27,9 +27,3 @@ to create an account (you'll need the Admin app enabled), choosing a transaction
     ./manage.py import_transactions ~/mydata/2013-01-commerzbank.csv
 
 You can then browse your transactions in the /admin/, add transaction category hints, and reimport your csvs to automatically update the categories based on your hints.
-
-
-Testing
--------
-
-To run the tests, you'll need to install a few additional test packages: mock, django_factory.
