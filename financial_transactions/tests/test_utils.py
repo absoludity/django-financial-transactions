@@ -18,7 +18,7 @@ from financial_transactions.models import (
     Transaction,
     TransactionCategoryHint,
 )
-from financial_transactions.management.commands.import_transactions import (
+from financial_transactions.management.commands.import_csvs import (
     Command,
 )
 
@@ -66,7 +66,7 @@ class ImportCSVTransactionsTestCase(TestCase):
         write_csv_transactions(
             self.factory.prepare(5, Transaction), filename)
 
-        call_command('import_transactions', filename, stdout=self.stdout)
+        call_command('import_csvs', filename, stdout=self.stdout)
 
         self.assertEqual(5, Transaction.objects.count())
 
@@ -80,7 +80,7 @@ class ImportCSVTransactionsTestCase(TestCase):
                 import_notes="ALDI sagt Danke"),
         ], filename)
 
-        call_command('import_transactions', filename, stdout=self.stdout)
+        call_command('import_csvs', filename, stdout=self.stdout)
 
         self.assertEqual(1, Transaction.objects.count())
         transaction = Transaction.objects.get()
@@ -98,7 +98,7 @@ class ImportCSVTransactionsTestCase(TestCase):
             self.factory.prepare_one(Transaction, **kwargs),
         ], filename)
 
-        call_command('import_transactions', filename, stdout=self.stdout)
+        call_command('import_csvs', filename, stdout=self.stdout)
 
         self.assertEqual(1, Transaction.objects.count())
 
@@ -116,7 +116,7 @@ class ImportCSVTransactionsTestCase(TestCase):
                 import_notes="This ALDI sagt Danke"),
         ], filename)
 
-        call_command('import_transactions', filename, stdout=self.stdout)
+        call_command('import_csvs', filename, stdout=self.stdout)
 
         self.assertEqual(1, Transaction.objects.count())
         transaction = Transaction.objects.get()
@@ -138,7 +138,7 @@ class ImportCSVTransactionsTestCase(TestCase):
                               import_notes_like='hateve',
                               category=category)
 
-        call_command('import_transactions', filename, stdout=self.stdout)
+        call_command('import_csvs', filename, stdout=self.stdout)
 
         self.assertEqual(1, Transaction.objects.count())
         transaction = Transaction.objects.get()
@@ -163,7 +163,7 @@ class ImportCSVTransactionsTestCase(TestCase):
                 self.factory.prepare_one(Transaction),
             ])
 
-        call_command('import_transactions', filepath,
+        call_command('import_csvs', filepath,
                      account_number=account.id, stdout=self.stdout)
 
         transactions = Transaction.objects.all()
