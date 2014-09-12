@@ -1,4 +1,3 @@
-import importlib
 from django.db import models
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
@@ -7,7 +6,8 @@ from categories.models import Category
 
 
 class Transaction(models.Model):
-    date = models.DateField(_('Date'), default=now)
+    tid = models.TextField()
+    date = models.DateField(_('Date'))
     date_on_receipt = models.DateField(_('Receipt date'), null=True,
                                        blank=True)
     amount = models.DecimalField(_('Amount'), max_digits=11,
@@ -18,17 +18,20 @@ class Transaction(models.Model):
                                          blank=True)
     foreign_currency = models.CharField(_('Foreign currency'), max_length=3,
                                         blank=True)
-    import_notes = models.TextField(_('Import notes'))
+    memo = models.TextField(_('Memo'))
     imported_at = models.DateTimeField(_('Imported at'),
                                        default=now)
 
     category = models.ForeignKey('categories.Category', null=True, blank=True)
     account = models.ForeignKey('Account')
 
+    class Meta:
+        unique_together = (('id', 'account'),)
+
     def __unicode__(self):
-        return u"{date} {amount} {currency} - {import_notes}".format(
+        return u"{date} {amount} {currency} - {memo}".format(
             amount=self.amount, currency=self.currency, date=self.date,
-            import_notes=self.import_notes)
+            memo=self.memo)
 
     class Factory:
         @staticmethod
@@ -39,36 +42,12 @@ class Transaction(models.Model):
 class TransactionCategoryHint(models.Model):
     """Automatically associate a transaction to a category."""
     category = models.ForeignKey('categories.Category')
-    import_notes_like = models.CharField(max_length=255)
+    memo_like = models.CharField(max_length=255)
 
 
 class Account(models.Model):
+    account_id = models.CharField(max_length=31)
     name = models.CharField(max_length=31)
-    # XXX Forms should register themselves or similar.
-    transaction_format = models.CharField(max_length=255, choices=(
-        ('financial_transactions.forms.commerzbank.GiroTransactionForm',
-         'CommerzBank Giro'),
-        ('financial_transactions.forms.commerzbank.MasterCardTransactionForm',
-         'CommerzBank MasterCard'),
-        ))
-
-    def __unicode__(self):
-        return self.name
-
-    @property
-    def transaction_form(self):
-        module, _, klass = self.transaction_format.rpartition('.')
-        try:
-            module = importlib.import_module(module)
-        except ImportError:
-            return None
-
-        return getattr(module, klass, None)
 
     class Meta:
-        ordering = ['id']
-
-    class Factory:
-        @staticmethod
-        def get_transaction_format(field, factory):
-            return 'financial_transactions.forms.commerzbank.GiroTransactionForm'
+        ordering = ['account_id']
