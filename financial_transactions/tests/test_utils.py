@@ -27,6 +27,7 @@ def ofx_transaction_for_transaction(transaction):
     ofx_transaction.id = transaction.tid
     return ofx_transaction
 
+
 def transactions_to_ofx_data(transactions, account):
     ofx_transactions = [
         ofx_transaction_for_transaction(t) for t in transactions]

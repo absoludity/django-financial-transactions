@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         if len(args) != 1:
-            raise CommandError("The csv file is required.")
+            raise CommandError("The ofx file is required.")
         filename = args[0]
         if not os.path.exists(filename):
             raise CommandError("The file {0} does not exist.".format(

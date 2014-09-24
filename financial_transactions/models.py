@@ -51,3 +51,7 @@ class Account(models.Model):
 
     class Meta:
         ordering = ['account_id']
+
+    def __unicode__(self):
+        return u"{name} ({id})".format(
+            name=self.name, id=self.account_id)
